@@ -1,8 +1,13 @@
 services:
-  - type: web
-    name: nitrogen
-    env: python3
-    region: Oregon
-    plan: free
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "uvicorn --port $PORT --host 0.0.0.0 main:app"
+- type: web
+  name: nitrogen
+  runtime: go
+  rootDir: backend
+  buildCommand: go build -o app .
+  startCommand: ./app
+- type: web
+  name: app-community
+  runtime: docker
+  rootDir: community/docker
+  dockerfilePath: ./Dockerfile
+  dockerContext: .
